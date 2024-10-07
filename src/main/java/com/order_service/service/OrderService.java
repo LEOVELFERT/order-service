@@ -14,14 +14,14 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     public String prepareOrder(TransactionDataDTO transactionDataDTO) {
-        if(isPrepareFailed()){
-            throw new RuntimeException("Prepare failed");
-        }
         Order order =new Order();
         order.setOrderId(transactionDataDTO.getOrderId());
         order.setItem(transactionDataDTO.getItem());
         order.setPreparationStatus(OrderPreparationStatus.PREPARING.name());
         orderRepository.save(order);
+        if(isPrepareFailed()){
+            throw new RuntimeException("Prepare failed");
+        }
         return "Order prepared SuccessFully";
     }
 
